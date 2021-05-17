@@ -1,0 +1,7 @@
+- name: Jenkins configuration
+  hosts: jenkins
+  become: true
+  tasks:
+    - name: Echo task
+      ansible.builtin.shell:
+        cmd: echo "test"

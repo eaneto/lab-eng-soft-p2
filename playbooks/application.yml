@@ -1,0 +1,7 @@
+- name: Application configuration
+  hosts: application
+  become: true
+  tasks:
+    - name: Echo task
+      ansible.builtin.shell:
+        cmd: echo "test"
