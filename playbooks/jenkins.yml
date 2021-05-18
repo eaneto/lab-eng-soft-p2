@@ -33,6 +33,21 @@
       shell: cat /var/lib/jenkins/secrets/initialAdminPassword
       changed_when: false
       register: result
+    # FIXME configurar o jenkins pra não iniciar o setupwizard
+    - name: Set jenkins setup wizard
+      shell:
+        cmd: echo JENKINS_JAVA_OPTIONS="-Djenkins.install.runSetupWizard=false"
+    - name: Wait for Jenkins to start up
+      uri:
+        url: http://localhost:8080
+        status_code: 200
+        timeout: 5
+      register: jenkins_service_status
+      retries: 20
+      delay: 5
+      until: >
+        'status' in jenkins_service_status and
+        jenkins_service_status['status'] == 200
     - name: Print Jenkins initial password
       debug:
         var: result.stdout
