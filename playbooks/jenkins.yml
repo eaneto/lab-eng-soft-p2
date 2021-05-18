@@ -2,6 +2,61 @@
   hosts: jenkins
   become: true
   tasks:
-    - name: Echo task
-      ansible.builtin.shell:
-        cmd: echo "test"
+    - name: Instala o Java 11
+      apt:
+        name: openjdk-11-jdk
+        state: present # estado present quer dizer que é pra instalar o pacote
+        update_cache: yes # Roda apt update antes da instalação
+    - name: Baixa chave do repositório
+      shell:
+        cmd: wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+
+    - name: Adiciona repositório do Jenkins no repositório local
+      shell:
+        cmd: sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+    - name: Instala o Jenkins
+      apt:
+        name: jenkins
+        state: present # estado present quer dizer que é pra instalar o pacote
+        update_cache: yes # Roda apt update antes da instalação
+    - name: Download golang
+      get_url:
+        url: https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
+        dest: /tmp
+    - name: Extract go tar
+      shell:
+        cmd: rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/go1.16.4.linux-amd64.tar.gz
+    - name: Add golang bin directory to path
+      shell:
+        cmd: echo 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin"' >> /etc/environment
+    - name: Catch and store jenkins initial password
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      changed_when: false
+      register: result
+    - name: Print Jenkins initial password
+      debug:
+        var: result.stdout
+    - name: Install ssh credentials
+      community.general.jenkins_plugin:
+        name: ssh-credentials
+    - name: Install credentials
+      community.general.jenkins_plugin:
+        name: credentials
+    - name: Install scm api
+      community.general.jenkins_plugin:
+        name: scm-api
+    - name: Install git client
+      community.general.jenkins_plugin:
+        name: git-client
+    - name: Install git
+      community.general.jenkins_plugin:
+        name: git
+    - name: Install greenballs
+      community.general.jenkins_plugin:
+        name: greenballs
+    - name: Install ws-cleanup
+      community.general.jenkins_plugin:
+        name: ws-cleanup
+    - name: Install pipeline
+      community.general.jenkins_plugin:
+        name: pipeline

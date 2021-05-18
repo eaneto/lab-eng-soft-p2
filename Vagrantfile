@@ -2,19 +2,19 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "hashicorp/precise32"
+  config.vm.box = "ubuntu/bionic64"
 
   # Provisiona a máquina para o servidor da aplicação
-  config.vm.define "application" do |application_config|
-    application_config.vm.hostname = "application"
-    application_config.vm.network :private_network,
-                          :ip => "192.168.33.12"
-    # Roda o playbook de instalação e configuração do servidor web
-    config.vm.provision "ansible" do |ansible|
-      ansible.verbose = "v"
-      ansible.playbook = "playbooks/application.yml"
-    end
-  end
+  #config.vm.define "application" do |application_config|
+  #  application_config.vm.hostname = "application"
+  #  application_config.vm.network :private_network,
+  #                        :ip => "192.168.33.12"
+  #  # Roda o playbook de instalação e configuração do servidor web
+  #  config.vm.provision "ansible" do |ansible|
+  #    ansible.verbose = "v"
+  #    ansible.playbook = "playbooks/application.yml"
+  #  end
+  #end
 
   # Provisiona a máquina para o servidor do Jenkins
   config.vm.define "jenkins" do |jenkins_config|

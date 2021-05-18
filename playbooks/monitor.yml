@@ -2,30 +2,19 @@
   hosts: monitor # Aplica apenas no host monitor
   become: true # Roda como root
   tasks:
-    - name: Configuração do repositório do nagios nas preferências do apt
-      ansible.builtin.shell:
-        cmd: >
-          echo "Package: nagios*
-          Pin: release n=raring
-          Pin-Priority: 990" | sudo tee /etc/apt/preferences.d/nagios
-    - name: Adiciona o repositório de old releases na configuração do apt
-      # Dessa forma será possível baixar o nagios3 com o apt
-      ansible.builtin.shell:
-        cmd: echo "deb http://old-releases.ubuntu.com/ubuntu raring main" | sudo tee /etc/apt/sources.list.d/raring.list
     - name: Instala o Nagios
       apt:
         name: nagios3
         state: present # estado present quer dizer que é pra instalar o pacote
-        force_apt_get: yes # Força usar apt-get ao invés de apt por conta da versão do ubuntu
         update_cache: yes # Roda apt update antes da instalação
     - name: Cria usuário do nagiosadmin no nagios3
       ansible.builtin.shell:
         # Cria o usuário nagiosadmin com a senha secret
         cmd: htpasswd -b -c /etc/nagios3/htpasswd.users nagiosadmin secret
-    - name: Copia configuração da loja virtual local para a VM
+    - name: Copia configuração do monitor local para a VM
       ansible.builtin.copy:
-        src: loja_virtual.cfg
-        dest: /etc/nagios3/conf.d/loja_virtual.cfg
+        src: monitor.cfg
+        dest: /etc/nagios3/conf.d/monitor.cfg
     - name: Realiza o reload no serviço no nagios3
       # Recarrega o serviço do nagios3 para utilizar as novas configurações
       ansible.builtin.service:
