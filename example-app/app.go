@@ -14,7 +14,7 @@ func sqsHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(notifier)
 
 	// Create a telegram service. Ignoring error for demo simplicity.
-	sqsService, err := sqs.New("accesskeyid", "secretkey", "region")
+	sqsService, err := sqs.New("test", "test", "us-east-1")
 
 	if err != nil {
 		fmt.Println("Yes, error")
@@ -22,7 +22,7 @@ func sqsHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Passing a telegram chat id as receiver for our messages.
 	// Basically where should our message be sent?
-	sqsService.AddReceivers("http://definetly-not-the-actual-sqs-endpoint.com")
+	sqsService.AddReceivers("http://localhost:4566/000000000000/notification-queue")
 
 	// Tell our notifier to use the telegram service. You can repeat the above process
 	// for as many services as you like and just tell the notifier to use them.
