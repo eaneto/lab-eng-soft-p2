@@ -4,47 +4,56 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/eaneto/notify"
 	sqs "github.com/eaneto/notify/service/amazonsqs"
+	"github.com/sirupsen/logrus"
 )
 
 func sqsHandler(w http.ResponseWriter, r *http.Request) {
 	notifier := notify.New()
-	fmt.Println(notifier)
 
-	// Create a telegram service. Ignoring error for demo simplicity.
-	sqsService, err := sqs.New("test", "test", "us-east-1")
+	accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
+	secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
+	region := os.Getenv("AWS_DEFAULT_REGION")
+	sqsService, err := sqs.New(accessKey, secretKey, region)
 
 	if err != nil {
-		fmt.Println("Yes, error")
+		logrus.Error(err)
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
-	// Passing a telegram chat id as receiver for our messages.
-	// Basically where should our message be sent?
-	sqsService.AddReceivers("http://localhost:4566/000000000000/notification-queue")
+	account := os.Getenv("AWS_ACCOUNT")
+	baseUrl := "https://sqs.%s.amazonaws.com/%s/notification-queue"
+	sqsService.AddReceivers(fmt.Sprintf(baseUrl, region, account))
 
-	// Tell our notifier to use the telegram service. You can repeat the above process
-	// for as many services as you like and just tell the notifier to use them.
-	// Inspired by http middlewares used in higher level libraries.
 	notifier.UseServices(sqsService)
 
-	// Send a test message.
-	error := notifier.Send(
+	err = notifier.Send(
 		context.Background(),
 		"Subject",
 		"Example message",
 	)
 
-	fmt.Println(error)
+	if err != nil {
+		logrus.Error(err)
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	logrus.Info("Message published succesfully")
 }
 
 func snsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+}
+
 func main() {
 	http.HandleFunc("/publish-sqs", sqsHandler)
 	http.HandleFunc("/publish-sns", snsHandler)
+	http.HandleFunc("/health", healthHandler)
 
 	http.ListenAndServe(":8888", nil)
 }

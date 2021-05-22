@@ -7,6 +7,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.4.0 // indirect
 	github.com/eaneto/notify v0.17.1 // indirect
 	github.com/nikoksr/notify v0.16.1 // indirect
+	github.com/sirupsen/logrus v1.8.1 // indirect
+	golang.org/x/sys v0.0.0-20210521203332-0cec03c779c1 // indirect
 )
 
 replace github.com/nikiksr/notify v0.16.1 => github.com/eaneto/notify v0.17.1
