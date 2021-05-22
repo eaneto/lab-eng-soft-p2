@@ -47,7 +47,9 @@ func sqsHandler(w http.ResponseWriter, r *http.Request) {
 func snsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
+// healthHandler returns ok always, used by nagios.
 func healthHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
 }
 
 func main() {
