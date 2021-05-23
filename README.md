@@ -36,13 +36,20 @@ Caused: hudson.util.HudsonFailedToLoad
 ## Ansible
 
 ansible-galaxy collection install community.general
+
 ansible-galaxy install emmetog.jenkins
 
 
 ## Terraform
 
-...
+O arquivo do terraform é utilizado para criar a fila e o tópico de
+notificação.
 
+```bash
+cd terraform/
+terraform init
+terraform apply -auto-approve
+```
 
 ## Aplicação de exemplo
 

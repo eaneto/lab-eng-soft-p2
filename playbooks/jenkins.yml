@@ -5,8 +5,14 @@
     jenkins_version: "2.277.4"
     jenkins_install_via: "apt"
     jenkins_home: /tmp/jenkins
+    jenkins_auth: "api"
+    jenkins_api_token: "11c75bd5bdda4f2d78c42e60f0e0a1626b"
+    jenkins_api_username: "admin"
     jenkins_jobs:
       - "notify-ci"
+    jenkins_custom_files:
+      - src: "users/admin_17150934656503044552/config.xml"
+        dest: "users/admin_17150934656503044552/config.xml"
     jenkins_plugins:
       - ssh-credentials
       - credentials
@@ -19,6 +25,8 @@
     jenkins_apt_packages:
       - openjdk-11-jdk
     jenkins_java_version: "java-1.11.0-openjdk-amd64"
+    jenkins_config_owner: "jenkins"
+    jenkins_config_group: "jenkins"
   roles:
     - emmetog.jenkins
   tasks:
