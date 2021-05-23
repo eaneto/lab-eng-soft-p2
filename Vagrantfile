@@ -18,6 +18,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Provisiona a máquina para o servidor do Jenkins
   config.vm.define "jenkins" do |jenkins_config|
+    jenkins_config.vm.provider "virtualbox" do |v|
+      v.cpus = 2
+      v.customize ["modifyvm", :id, "--name", "jenkins"]
+      v.customize ["modifyvm", :id, "--memory", 4096]
+    end
     jenkins_config.vm.box = "debian/buster64"
     jenkins_config.vm.hostname = "jenkins"
     jenkins_config.vm.network :private_network,
@@ -41,4 +46,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = "playbooks/monitor.yml"
     end
   end
+
 end
