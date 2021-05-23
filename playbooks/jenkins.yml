@@ -5,7 +5,7 @@
     jenkins_version: "2.277.4"
     jenkins_install_via: "apt"
     jenkins_home: /home/jenkins/data
-    jenkins_java_opts: "-Djenkins.install.runSetupWizard=false -Xmx2048m"
+    jenkins_java_opts: "-Djenkins.install.runSetupWizard=false -Xmx4096m"
     jenkins_custom_plugins:
       # Dependências base
       - "strict-crumb-issuer.jpi"
