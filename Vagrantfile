@@ -18,6 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Provisiona a máquina para o servidor do Jenkins
   config.vm.define "jenkins" do |jenkins_config|
+    jenkins_config.vm.box = "debian/buster64"
     jenkins_config.vm.hostname = "jenkins"
     jenkins_config.vm.network :private_network,
                           :ip => "192.168.33.13"

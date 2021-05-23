@@ -2,13 +2,11 @@
   hosts: jenkins
   become: true
   vars:
-    jenkins_version: "2.73.1"
-    jenkins_hostname: "jenkins"
-    jenkins_port: 8080
+    jenkins_version: "2.277.4"
     jenkins_install_via: "apt"
+    jenkins_home: /tmp/jenkins
     jenkins_jobs:
       - "notify-ci"
-    jenkins_include_secrets: true
     jenkins_plugins:
       - ssh-credentials
       - credentials
@@ -18,14 +16,12 @@
       - greenballs
       - ws-cleanup
       - pipeline
+    jenkins_apt_packages:
+      - openjdk-11-jdk
+    jenkins_java_version: "java-1.11.0-openjdk-amd64"
   roles:
     - emmetog.jenkins
   tasks:
-    - name: Instala o Java 11
-      apt:
-        name: openjdk-11-jdk
-        state: present # estado present quer dizer que é pra instalar o pacote
-        update_cache: yes # Roda apt update antes da instalação
     - name: Download golang
       get_url:
         url: https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
