@@ -79,6 +79,8 @@
       - "pipeline-stage-tags-metadata.jpi"
       - "pipeline-model-definition.jpi"
       - "workflow-aggregator.jpi"
+    jenkins_jobs:
+      - "NotifyCI"
     jenkins_apt_packages:
       - openjdk-11-jdk
       - git
