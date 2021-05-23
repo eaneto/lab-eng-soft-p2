@@ -39,9 +39,10 @@ func sqsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		logrus.Error(err)
 		w.WriteHeader(http.StatusInternalServerError)
+	} else {
+		logrus.Info("Message published succesfully")
+		w.WriteHeader(http.StatusOK)
 	}
-
-	logrus.Info("Message published succesfully")
 }
 
 func snsHandler(w http.ResponseWriter, r *http.Request) {
