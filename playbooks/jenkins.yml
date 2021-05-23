@@ -16,24 +16,18 @@
       - "git-client.hpi"
       - "git.hpi"
       - "workflow-aggregator.hpi" # Pipeline plugin
+    jenkins_jobs:
+      - "NotifyCI"
     jenkins_apt_packages:
       - openjdk-11-jdk
+      - git
+      - build-essential
     jenkins_java_version: "java-1.11.0-openjdk-amd64"
     jenkins_config_owner: "jenkins"
     jenkins_config_group: "jenkins"
   roles:
     - emmetog.jenkins
   tasks:
-    - name: Instala o git
-      apt:
-        name: git
-        state: present # estado present quer dizer que é pra instalar o pacote
-        update_cache: yes # Roda apt update antes da instalação
-    - name: Instala o make
-      apt:
-        name: build-essential
-        state: present # estado present quer dizer que é pra instalar o pacote
-        update_cache: yes # Roda apt update antes da instalação
     - name: Download golang
       get_url:
         url: https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
