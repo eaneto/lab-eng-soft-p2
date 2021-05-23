@@ -7,33 +7,88 @@
     jenkins_home: /home/jenkins/data
     jenkins_java_opts: "-Djenkins.install.runSetupWizard=false -Xmx2048m"
     jenkins_custom_plugins:
+      # Dependências base
       - "strict-crumb-issuer.jpi"
-      - "trilead-api.hpi"
-      - "credentials.hpi"
-      - "ssh-credentials.hpi"
-      - "scm-api.hpi"
-      - "ws-cleanup.hpi"
-      - "git-client.hpi"
-      - "git.hpi"
-      - "workflow-aggregator.hpi" # Pipeline plugin
+      - "trilead-api.jpi"
+      - "caffeine-api.jpi"
+      - "script-security.jpi"
+      - "jaxb.jpi"
+      - "structs.jpi"
+      - "command-launcher.jpi"
+      - "bouncycastle-api.jpi"
+      - "jdk-tool.jpi"
+      # Credentials
+      - "credentials.jpi"
+      # SSH Credentials
+      - "ssh-credentials.jpi"
+      # SCM Api
+      - "scm-api.jpi"
+      # Git client
+      - "apache.jpi"
+      - "jcsh.jpi"
+      - "git-client.jpi"
+      # Git
+      - "mailer.jpi"
+      - "workflow-step-api.jpi"
+      - "workflow-scm-step.jpi"
+      - "git.jpi"
+      # WS Cleanup
+      - "resource-disposer.jpi"
+      - "ws-cleanup.jpi"
+      # Workflow Aggregator/Pipeline
+      - "workflow-api.jpi"
+      - "workflow-support.jpi"
+      - "plugin-util-api.jpi"
+      - "font-awesome-api.jpi"
+      - "jquery3-api.jpi"
+      - "popper-api.jpi"
+      - "bootstrap4-api.jpi"
+      - "display-url-api.jpi"
+      - "checks-api.jpi"
+      - "snakeyaml-api.jpi"
+      - "jackson2-api.jpi"
+      - "echarts-api.jpi"
+      - "junit.jpi"
+      - "matrix-projects.jpi"
+      - "lockable-resources.jpi"
+      - "workflow-job.jpi"
+      - "ace-editor.jpi"
+      - "workflow-cps.jpi"
+      - "pipeline-input-step.jpi"
+      - "pipeline-graph-analysis.jpi"
+      - "pipeline-stage-step.jpi"
+      - "pipeline-rest-api.jpi"
+      - "handlebars.jpi"
+      - "momentjs.jpi"
+      - "pipeline-stage-view.jpi"
+      - "durable-task.jpi"
+      - "workflow-durable-task-step.jpi"
+      - "apache-httpcomponents-client-4-api.jpi"
+      - "workflow-basic-steps.jpi"
+      - "cloudbees-folder.jpi"
+      - "git-server.jpi"
+      - "workflow-cps-global-lib.jpi"
+      - "branch-api.jpi"
+      - "workflow-multibranch.jpi"
+      - "pipeline-build-step.jpi"
+      - "pipeline-milestone-step.jpi"
+      - "plain-credentials.jpi"
+      - "credentials-binding.jpi"
+      - "pipeline-model-api.jpi"
+      - "pipeline-model-extensions.jpi"
+      - "pipeline-stage-tags-metadata.jpi"
+      - "pipeline-model-definition.jpi"
+      - "workflow-aggregator.jpi"
     jenkins_apt_packages:
       - openjdk-11-jdk
+      - git
+      - build-essential
     jenkins_java_version: "java-1.11.0-openjdk-amd64"
     jenkins_config_owner: "jenkins"
     jenkins_config_group: "jenkins"
   roles:
     - emmetog.jenkins
   tasks:
-    - name: Instala o git
-      apt:
-        name: git
-        state: present # estado present quer dizer que é pra instalar o pacote
-        update_cache: yes # Roda apt update antes da instalação
-    - name: Instala o make
-      apt:
-        name: build-essential
-        state: present # estado present quer dizer que é pra instalar o pacote
-        update_cache: yes # Roda apt update antes da instalação
     - name: Download golang
       get_url:
         url: https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
