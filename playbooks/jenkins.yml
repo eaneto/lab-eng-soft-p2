@@ -49,7 +49,7 @@
       - "jackson2-api.jpi"
       - "echarts-api.jpi"
       - "junit.jpi"
-      - "matrix-projects.jpi"
+      - "matrix-project.jpi"
       - "lockable-resources.jpi"
       - "workflow-job.jpi"
       - "ace-editor.jpi"
