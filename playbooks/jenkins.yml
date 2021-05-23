@@ -24,17 +24,13 @@
       # SCM Api
       - "scm-api.jpi"
       # Git client
-      - "apache.jpi"
-      - "jcsh.jpi"
+      - "jsch.jpi"
       - "git-client.jpi"
       # Git
       - "mailer.jpi"
       - "workflow-step-api.jpi"
       - "workflow-scm-step.jpi"
       - "git.jpi"
-      # WS Cleanup
-      - "resource-disposer.jpi"
-      - "ws-cleanup.jpi"
       # Workflow Aggregator/Pipeline
       - "workflow-api.jpi"
       - "workflow-support.jpi"
