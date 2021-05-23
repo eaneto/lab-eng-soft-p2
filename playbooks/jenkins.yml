@@ -14,8 +14,7 @@
       - "ws-cleanup.hpi"
       - "git-client.hpi"
       - "git.hpi"
-    jenkins_plugins:
-      - pipeline
+      - "workflow-aggregator.hpi" # Pipeline plugin
     jenkins_apt_packages:
       - openjdk-11-jdk
     jenkins_java_version: "java-1.11.0-openjdk-amd64"
