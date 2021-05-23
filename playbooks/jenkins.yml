@@ -4,24 +4,18 @@
   vars:
     jenkins_version: "2.277.4"
     jenkins_install_via: "apt"
-    jenkins_home: /tmp/jenkins
-    jenkins_auth: "api"
-    jenkins_api_token: "11c75bd5bdda4f2d78c42e60f0e0a1626b"
-    jenkins_api_username: "admin"
-    jenkins_jobs:
-      - "notify-ci"
-    jenkins_custom_files:
-      - src: "users/admin_17150934656503044552/config.xml"
-        dest: "users/admin_17150934656503044552/config.xml"
-    jenkins_plugins:
-      - ssh-credentials
-      - credentials
-      - scm-api
-      - git
-      - git-client
-      - greenballs
-      - ws-cleanup
-      - pipeline
+    jenkins_home: /home/jenkins/data
+    jenkins_java_opts: "-Djenkins.install.runSetupWizard=false -Xmx2048m"
+    jenkins_custom_plugins:
+      - "strict-crumb-issuer.jpi"
+      - "trilead-api.hpi"
+      - "credentials.hpi"
+      - "ssh-credentials.hpi"
+      - "scm-api.hpi"
+      - "ws-cleanup.hpi"
+      - "git-client.hpi"
+      - "git.hpi"
+      - "workflow-aggregator.hpi" # Pipeline plugin
     jenkins_apt_packages:
       - openjdk-11-jdk
     jenkins_java_version: "java-1.11.0-openjdk-amd64"
@@ -30,6 +24,16 @@
   roles:
     - emmetog.jenkins
   tasks:
+    - name: Instala o git
+      apt:
+        name: git
+        state: present # estado present quer dizer que é pra instalar o pacote
+        update_cache: yes # Roda apt update antes da instalação
+    - name: Instala o make
+      apt:
+        name: build-essential
+        state: present # estado present quer dizer que é pra instalar o pacote
+        update_cache: yes # Roda apt update antes da instalação
     - name: Download golang
       get_url:
         url: https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
@@ -39,4 +43,4 @@
         cmd: rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/go1.16.4.linux-amd64.tar.gz
     - name: Add golang bin directory to path
       shell:
-        cmd: echo 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin"' >> /etc/environment
+        cmd: cp /usr/local/go/bin/go /usr/local/bin/go
