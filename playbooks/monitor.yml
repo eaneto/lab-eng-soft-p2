@@ -10,7 +10,7 @@
     - name: Cria usuário do nagiosadmin no nagios3
       shell:
         # Cria o usuário admin com a senha admin
-        cmd: htpasswd -b -c /etc/nagios3/htpasswd.users admin admin
+        cmd: htpasswd -b -c /etc/nagios3/htpasswd.users nagiosadmin admin
     - name: Copia configuração do monitor local para a VM
       copy:
         src: monitor.cfg
