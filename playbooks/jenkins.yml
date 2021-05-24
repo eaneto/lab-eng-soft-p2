@@ -83,6 +83,7 @@
       - openjdk-11-jdk
       - git
       - build-essential
+      - sshpass
     jenkins_java_version: "java-1.11.0-openjdk-amd64"
     jenkins_config_owner: "jenkins"
     jenkins_config_group: "jenkins"

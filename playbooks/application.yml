@@ -2,6 +2,30 @@
   hosts: application
   become: true
   tasks:
-    - name: Echo task
-      ansible.builtin.shell:
-        cmd: echo "test"
+    - name: Install build essential
+      apt:
+        name: build-essential
+        state: present
+        update_cache: yes
+    - name: Install git
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+    - name: Download golang
+      get_url:
+        url: https://golang.org/dl/go1.16.4.linux-amd64.tar.gz
+        dest: /tmp
+    - name: Extract go tar
+      shell:
+        cmd: rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/go1.16.4.linux-amd64.tar.gz
+    - name: Add golang bin directory to path
+      shell:
+        cmd: cp /usr/local/go/bin/go /usr/local/bin/go
+    - name: Enable ssh access with password
+      shell:
+        cmd: sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+    - name: Restart ssh service
+      service:
+        name: ssh
+        state: restarted
