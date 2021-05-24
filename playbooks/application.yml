@@ -29,23 +29,3 @@
       service:
         name: ssh
         state: restarted
-    - name: Add aws account to environment
-      lineinfile:
-        path: /etc/environment
-        line: "export AWS_ACCOUNT={{ lookup ('env', 'AWS_ACCOUNT')}}"
-        create: yes
-    - name: Add aws account to environment
-      lineinfile:
-        path: /etc/environment
-        line: "export AWS_ACCOUNT={{ lookup ('env', 'AWS_ACCOUNT')}}"
-        create: yes
-    - name: Add aws access key id to environment
-      lineinfile:
-        path: /etc/environment
-        line: "export AWS_ACCESS_KEY_ID={{ lookup ('env', 'AWS_ACCESS_KEY_ID')}}"
-        create: yes
-    - name: Add aws secret access key to environment
-      lineinfile:
-        path: /etc/environment
-        line: "export AWS_SECRET_ACCESS_KEY={{ lookup ('env', 'AWS_SECRET_ACCESS_KEY')}}"
-        create: yes
