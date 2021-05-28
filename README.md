@@ -13,10 +13,6 @@ export AWS_ACCESS_KEY_ID=secret-key-id
 export AWS_SECRET_ACCESS_KEY=secret-access-key
 ```
 
-## Vagrant
-
-...
-
 ## Ansible
 
 Para instalar o jenkins no servidor é preciso da role customizada do jenkins.
@@ -36,6 +32,10 @@ terraform init
 terraform apply -auto-approve
 ```
 
-## Aplicação de exemplo
+## Vagrant
 
-...
+```bash
+vagrant box add ubuntu/bionic64
+vagrant box add debian/buster64
+vagrant up
+```
